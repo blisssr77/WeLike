@@ -55,6 +55,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                 title: 'Please try again',
             })
         }
+        console.log(updatedPost)
 
         return navigate(`/posts/${post.$id}`)
     }
@@ -73,7 +74,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
     navigate('/')
   }
 
-  console.log(post?.imageUrl)
+  // console.log(post?.imageUrl)
 
   return (
     <Form {...form}>
