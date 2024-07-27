@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query'
 
 import { getUsers, getUserById, updateUser, getPostById, createPost, createUserAccount, savePost, likePost, deleteSavedPost, getRecentPosts, signInAccount, signOutAccount, getCurrentUser, updatePost, deletePost, getInfinitePosts, searchPosts } from '../appwrite/api'
-import { INewPost, INewUser, IUpdatePost } from '@/types'
+import { INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
 export const useCreateUserAccount = () => {
