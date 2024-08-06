@@ -46,3 +46,13 @@ export type INewUser = {
   username: string;
   password: string;
 };
+
+// export interface Post {
+//   $id: string;
+//   // other post properties...
+// };
+
+// export interface Page {
+//   documents: Post[];
+//   // other page properties...
+// };
