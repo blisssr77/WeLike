@@ -68,7 +68,7 @@ If you need assistance or face any bugs, join our active Discord community with 
 
 - **Explore Page**: Navigate to `/explore` to see the latest posts.
 - **Profile Page**: Go to `/profile` to view and edit your profile.
-- **Create Post**: Use `/create` to add new posts.
+- **Create Post**: Use `/create-post` to add new posts.
 - **Detailed Post Page**: Click on any post to view its details.
 
 ## Contributing
