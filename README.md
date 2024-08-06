@@ -7,11 +7,9 @@ WeLike is a dynamic social media platform allowing users to create and explore p
 - [Introduction](#introduction)
 - [Tech Stack](#tech-stack)
 - [Features](#features)
-- [Project Structure](#project-structure)
 - [Setup and Installation](#setup-and-installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
