@@ -6,6 +6,7 @@ WeLike is a dynamic social media platform allowing users to create and explore p
 
 - [Introduction](#introduction)
 - [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started-vercel)
 - [Features](#features)
 - [Setup and Installation](#setup-and-installation)
 - [Usage](#usage)
@@ -27,7 +28,13 @@ If you need assistance or face any bugs, join our active Discord community with 
 
 ## Getting Started (Vercel)
 
-[WeLike app - single click to start](https://we-like-app-v1.vercel.app/sign-in)
+[WeLike app - single click to start the app](https://we-like-app-v1.vercel.app/sign-in)
+
+- **Sign up / Sign in**
+- **Browse Contents**
+- **Like / Save the Contents**
+- **Create / Edit / Delete the Contents**
+- **Sign out**
 
 ## Features
 
