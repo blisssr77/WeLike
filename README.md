@@ -25,6 +25,10 @@ If you need assistance or face any bugs, join our active Discord community with 
 - **UI Components**: Shadcn
 - **Authentication**: Appwrite
 
+## Getting Started (Vercel)
+
+[WeLike app - single click to start](https://we-like-app-v1.vercel.app/sign-in)
+
 ## Features
 
 - **Authentication System**: Secure and user-friendly login/signup
@@ -36,6 +40,8 @@ If you need assistance or face any bugs, join our active Discord community with 
 - **Create/Edit Post**: User-friendly post creation and editing
 - **Responsive UI**: Seamless experience across devices
 - **Efficient Data Fetching**: Using React Query for optimal performance
+
+
 
 ## Setup and Installation
 
