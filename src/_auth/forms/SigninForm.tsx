@@ -63,7 +63,9 @@ const SigninForm = () => {
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
-        <img src="/assets/images/logo.svg" alt="logo" />
+        <img src="/assets/icons/favicon.ico" alt="logo" style={{ width: '140px', height: '140px' }}/>
+        <h1 className="text-red h3-bold md:h2-bold pt-0 sm:pt-0"
+        style={{ display: 'inline-block', transform: 'rotate(-10deg)', fontSize: '44px'}}>WeLike</h1>
 
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
           Log in to your account
@@ -86,6 +88,7 @@ const SigninForm = () => {
             </FormItem>
           )}
           />
+          
           <FormField
           control={form.control}
           name="password"
@@ -98,6 +101,7 @@ const SigninForm = () => {
               <FormMessage />
             </FormItem>
           )}
+
           />
             <Button type="submit" className="shad-button_primary">
               {isUserLoading ? (
@@ -109,8 +113,11 @@ const SigninForm = () => {
 
             <p className="text-small-regular text-light-2 text-center mt-2">
               Don't have an account?
-              <Link to="/sign-up" className="text-primary-500 text-small-semibold ml-1">
-                Sign up</Link>
+              <Link
+              to="/sign-up"
+              className="text-red text-small-semibold ml-1">
+              Sign up
+            </Link>
             </p>
         </form>
       </div>
