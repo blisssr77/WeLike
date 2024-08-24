@@ -70,7 +70,9 @@ const SignupForm = () => {
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
-        <img src="/assets/images/logo.svg" alt="logo" />
+        <img src="/assets/icons/favicon.ico" alt="logo" style={{ width: '140px', height: '140px' }}/>
+        <h1 className="text-red h3-bold md:h2-bold pt-0 sm:pt-0"
+        style={{ display: 'inline-block', transform: 'rotate(-10deg)', fontSize: '44px'}}>WeLike</h1>
 
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
           Create a new account
