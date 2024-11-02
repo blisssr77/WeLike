@@ -18,7 +18,13 @@ Explore social media with this user-friendly platform that has a nice look and l
 
 If you need assistance or face any bugs, join our active Discord community with over 27k+ members. It's a place where people help each other out.
 
+## Screenshots
+
 <img width="1445" alt="frontpage" src="https://github.com/user-attachments/assets/f51f5127-be58-4915-a57d-2b4f72bc6776">
+<img width="1445" alt="frontpage" src="https://github.com/user-attachments/assets/8046210b-18f5-4767-9a2b-2857c3be8ceb">
+<img width="1575" alt="search" src="https://github.com/user-attachments/assets/4087120c-abeb-4df4-adb3-14bf5ec9cc7a">
+
+
 
 
 ## Tech Stack
@@ -95,4 +101,9 @@ If you need assistance or face any bugs, join our active Discord community with 
 
 ## Contributing
 
-We welcome contributions from the community. If you'd like to contribute, please fork the repository and create a pull request with your changes.
+If you have any suggestions or need a bug fix that would improve the application, please fork the repo and create a pull request.
+ - Fork the Project
+ - Create your Feature Branch
+ - Commit your Changes
+ - Push to the Branch
+ - Open a Pull Request
