@@ -1,4 +1,4 @@
-<h1 align="center">WE LIKE <br> social media application</h1>
+<h1 align="center">❇️ WE LIKE ❇️ <br> social media application</h1>
 
 <h4 align="center">WeLike is a dynamic social media platform allowing users to create and explore posts, ensuring a smooth and engaging user experience with a modern and responsive design.</h4>
 
