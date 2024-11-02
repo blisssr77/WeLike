@@ -55,7 +55,7 @@ If you need assistance or face any bugs, join our active Discord community with 
 1. **Clone the repository**:
     ```bash
     git clone https://github.com/yourusername/welike.git
-    cd welike
+    cd vite-project1-welike
     ```
 
 2. **Install dependencies**:
