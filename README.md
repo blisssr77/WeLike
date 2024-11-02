@@ -21,7 +21,7 @@ If you need assistance or face any bugs, join our active Discord community with 
 ## Screenshots
 
 <img width="1445" alt="frontpage" src="https://github.com/user-attachments/assets/f51f5127-be58-4915-a57d-2b4f72bc6776">
-<img width="1445" alt="frontpage" src="https://github.com/user-attachments/assets/8046210b-18f5-4767-9a2b-2857c3be8ceb">
+<img width="1717" alt="home" src="https://github.com/user-attachments/assets/8e978a50-6844-4c57-868a-398fe52bf8ae">
 <img width="1575" alt="search" src="https://github.com/user-attachments/assets/4087120c-abeb-4df4-adb3-14bf5ec9cc7a">
 
 
