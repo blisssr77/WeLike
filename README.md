@@ -1,6 +1,6 @@
-# WeLike
+<h1 align="center">WE LIKE, socail media application</h1>
 
-WeLike is a dynamic social media platform allowing users to create and explore posts, ensuring a smooth and engaging user experience with a modern and responsive design.
+<h4 align="center">WeLike is a dynamic social media platform allowing users to create and explore posts, ensuring a smooth and engaging user experience with a modern and responsive design.</h4>
 
 ## Table of Contents
 
