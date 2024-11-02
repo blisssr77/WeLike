@@ -18,6 +18,9 @@ Explore social media with this user-friendly platform that has a nice look and l
 
 If you need assistance or face any bugs, join our active Discord community with over 27k+ members. It's a place where people help each other out.
 
+<img width="1445" alt="frontpage" src="https://github.com/user-attachments/assets/f51f5127-be58-4915-a57d-2b4f72bc6776">
+
+
 ## Tech Stack
 
 - **Frontend**: React.js, TypeScript, Tailwind CSS
@@ -66,15 +69,23 @@ If you need assistance or face any bugs, join our active Discord community with 
 3. **Configure environment variables**:
     Create a `.env` file in the root directory and add your Appwrite project details:
     ```
-    REACT_APP_APPWRITE_PROJECT_ID=your_project_id
-    REACT_APP_APPWRITE_ENDPOINT=your_appwrite_endpoint
+    VITE_APPWRITE_URL=
+    VITE_APPWRITE_PROJECT_ID=
+    VITE_APPWRITE_DATABASE_ID=
+    VITE_APPWRITE_STORAGE_ID=
+    VITE_APPWRITE_USER_COLLECTION_ID=
+    VITE_APPWRITE_POST_COLLECTION_ID=
+    VITE_APPWRITE_SAVES_COLLECTION_ID=
     ```
+
+    Replace the placeholder values with your actual Appwrite credentials. You can obtain these credentials by signing up on the [Appwrite website](https://appwrite.io/).
 
 4. **Start the development server**:
     ```bash
     npm start
     ```
-
+    Open http://localhost:3000 in your browser to view the project.
+   
 ## Usage
 
 - **Explore Page**: Navigate to `/explore` to see the latest posts.
