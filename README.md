@@ -51,4 +51,33 @@ To run this project locally, follow these steps:
 
 ```bash
 git clone [https://github.com/blisssr77/WeLike](https://github.com/blisssr77/WeLike)
-cd vite-project1-welike
+cd weLink
+
+---
+
+### 2. How to Check Your Deployment
+Since you are likely hosting on **Vercel** (based on your previous links), here is the professional workflow to verify everything is working after a push:
+
+**Step A: Check the Build Status (The "Health Check")**
+1.  Go to your **Vercel Dashboard**.
+2.  Click on your project ("WeLike" or "Vibe").
+3.  Look at the **"Deployment"** tab.
+    * **Ready (Green):** The code compiled successfully.
+    * **Error (Red):** The build failed. Click it to read the logs (usually a TypeScript or Linting error).
+
+**Step B: The "Incognito" Test (The Real User Test)**
+Developers often think their app works because their browser has saved cookies. You need to test as a stranger.
+1.  Open an **Incognito Window** (Cmd+Shift+N).
+2.  Go to your live URL (e.g., `https://we-like-app-v1.vercel.app`).
+3.  **Test the Critical Paths:**
+    * **Guest Mode:** Does the "Guest Banner" appear?
+    * **Google Login:** Try signing in. Does it redirect correctly?
+    * **Images:** Do the images load? (Check for broken icons).
+
+**Step C: The "Console" Check (The Hidden Errors)**
+1.  On your live site, Right Click -> **Inspect** -> **Console**.
+2.  Look for **Red Text**.
+    * Ignore yellow warnings.
+    * **Red Errors** usually mean a crash, a missing API key, or a broken image link.
+
+**Would you like me to help you debug any red errors you see in the Vercel logs?**
