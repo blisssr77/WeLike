@@ -14,7 +14,7 @@ const AuthLayout = () => {
           </section>
 
           <img
-            src="/assets/images/side1.webp"
+            src="/assets/images/sidenew4.png"
             alt="logo"
             className='hidden xl:block h-screen w-1/2 object-cover bg-no-repeat'
           />

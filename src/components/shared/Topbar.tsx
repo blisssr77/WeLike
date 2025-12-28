@@ -17,12 +17,11 @@ const Topbar = () => {
     <section className='topbar'>
         <div className='flex-between py-4 px-5'>
             <Link to="/" className='flex gap-3 items-center'>
-                <img
-                    src='/assets/images/logo.svg'
-                    alt='logo'
-                    width={130}
-                    height={325}
-                />
+                <span 
+                    className="h3-bold bg-gradient-to-r from-indigo-400 via-purple-500 to-red-500 text-transparent bg-clip-text tracking-tighter"
+                    >
+                    Vibe
+                </span>
             </Link>
 
             <div className='flex gap-4'>
@@ -33,7 +32,7 @@ const Topbar = () => {
                 </Button>
                 <Link to={`/profile/${user.id}`} className='flex-center gap-3'>
                     <img
-                        src={user.imageUrl || '/assets/icons/profile-placeholder.svg'} 
+                        src={user.imageUrl?.replace("/preview", "/view") || "/assets/icons/profile-placeholder.svg"}
                         alt='profile' 
                         className='h-8 w-8 rounded-full'/>
                 </Link>

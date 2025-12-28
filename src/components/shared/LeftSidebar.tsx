@@ -13,37 +13,51 @@ const LeftSidebar = () => {
   const { user } = useUserContext()
 
   useEffect(() => {
-    if(isSuccess) navigate(0)
+    // CHANGE 1: Navigate to sign-in directly instead of refreshing (navigate(0))
+    if (isSuccess) {
+        navigate('/sign-in')
+    }
   }, [isSuccess])
 
   return (
     <nav className='leftsidebar'>
       <div className='flex flex-col gap-11'>
-        <Link to="/" className="flex gap-3 items-center">
+        <Link to="/" className="flex gap-3 items-center group">
           <img
-            src="/assets/icons/favicon.ico" 
+            src="/assets/icons/logonew3.png"
             alt="logo"
-            width={100}
-            height={100}
+            width={48} 
+            height={48}
+            className="group-hover:scale-110 transition-transform duration-200"
           />
-          <span 
-          style={{ display: 'inline-block', transform: 'rotate(-10deg)', fontSize: '44px'}}
-          className="text-red h3-bold md:h2-bold pt-0 sm:pt-0">WeLike</span>
+          
+          <div className="flex flex-col">
+            <span 
+              className="h2-bold bg-gradient-to-r from-indigo-400 via-purple-500 to-red-500 text-transparent bg-clip-text tracking-tighter group-hover:tracking-widest transition-all duration-300"
+              style={{ fontSize: '38px', lineHeight: '110%' }}
+            >
+              Vibe
+            </span>
+          </div>
         </Link>
 
-        <Link to={`/profile/${user.id}`} 
-          className='flex gap-3 items-center'>
+        {/* LOGIC: If user has an ID (Logged in), allow click. If Guest, go to Sign-in */}
+        <Link 
+          to={user.id ? `/profile/${user.id}` : '/sign-in'} 
+          className='flex gap-3 items-center'
+        >
             <img
-              src={user.imageUrl || 'assets/icons/profile-placeholder.svg'} 
+              src={user.imageUrl?.replace("/preview", "/view") || "/assets/icons/profile-placeholder.svg"}
               alt='profile'
-            className='h-14 w-14 rounded-full'
-          />
+              className='h-14 w-14 rounded-full'
+            />
           <div className='flex flex-col'>
             <p className='body-bold'>
-              {user.name}
+              {user.name || 'Guest User'}
             </p>
             <p className='small-regular text-light-3'>
-              @{user.username}
+              {/* Only show @username if it exists, otherwise prompt to sign up */}
+              {user.username ? `@${user.username}` : 'Log in to view profile'}
             </p>
           </div>
         </Link>
@@ -67,14 +81,11 @@ const LeftSidebar = () => {
                       isActive && 'invert-white'
                     }`}
                   />
-                  
                   {link.label}
-                  
                 </NavLink>
               </li>
             )
           })}
-
         </ul>
       </div>
 
@@ -85,7 +96,6 @@ const LeftSidebar = () => {
               <img src='/assets/icons/logout.svg' alt='logout'/> 
               <p className='small-medium lg:base-medium'>Logout</p>
       </Button>
-
     </nav>
   )
 }

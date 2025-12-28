@@ -11,7 +11,8 @@ const UserCard = ({ user }: UserCardProps) => {
   return (
     <Link to={`/profile/${user.$id}`} className="user-card">
       <img
-        src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
+        // FIX: Use /view to bypass the Image Transformation limit
+        src={user.imageUrl?.replace("/preview", "/view") || "/assets/icons/profile-placeholder.svg"}
         alt="creator"
         className="rounded-full w-14 h-14"
       />

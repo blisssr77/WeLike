@@ -27,21 +27,49 @@ const Profile = () => {
 
   const { data: currentUser } = useGetUserById(id || "");
 
-  if (!currentUser)
+  // CHECK: Is the visitor a Guest?
+  const isGuest = !user.email;
+  // CHECK: Are they trying to view their own profile?
+  const isOwnProfile = id === user.id;
+
+  if (!currentUser) {
+    // 1. If User is a Guest and viewing their own profile, show the "Lock" screen
+    if (isGuest && isOwnProfile) {
+      return (
+        <div className="flex flex-col flex-1 items-center justify-center gap-4 py-10 px-5 text-center w-full h-full">
+          <img 
+            src="/assets/icons/people.svg" // Make sure you have a lock icon or use 'profile-placeholder.svg'
+            alt="lock"
+            width={80} 
+            height={80}
+            className="opacity-50" 
+          />
+          <h2 className="h2-bold">Guest Profile</h2>
+          <p className="text-light-3 max-w-md">
+            You are currently browsing as a Guest. Sign in to create your profile, follow others, and like posts.
+          </p>
+          <Link to="/sign-in" className="shad-button_primary px-8 py-3 rounded-lg mt-2">
+            Sign In Now
+          </Link>
+        </div>
+      );
+    }
+
+    // 2. Otherwise, it's just loading (or a valid 404)
     return (
       <div className="flex-center w-full h-full">
         <Loader />
       </div>
     );
+  }
 
   return (
     <div className="profile-container">
       <div className="profile-inner_container">
         <div className="flex xl:flex-row flex-col max-xl:items-center flex-1 gap-7">
           <img
-            src={
-              currentUser.imageUrl || "/assets/icons/profile-placeholder.svg"
-            }
+            // FIX: Use currentUser (the profile owner), not user (you)
+            src={currentUser.imageUrl?.replace("/preview", "/view") || "/assets/icons/profile-placeholder.svg"}
             alt="profile"
             className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
           />
@@ -56,7 +84,8 @@ const Profile = () => {
             </div>
 
             <div className="flex gap-8 mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
-              <StatBlock value={currentUser.posts.length} label="Posts" />
+              {/* FIX: Use Optional Chaining for safety */}
+              <StatBlock value={currentUser.posts?.length || 0} label="Posts" />
               <StatBlock value={20} label="Followers" />
               <StatBlock value={20} label="Following" />
             </div>

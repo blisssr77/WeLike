@@ -1,7 +1,7 @@
 import { useDeleteSavedPost, useGetCurrentUser, useLikePost, useSavePost } from "@/lib/react-query/queriesAndMutations";
 import { checkIsLiked } from "@/lib/utils";
 import { Models } from "appwrite";
-import { Loader } from "lucide-react";
+import Loader from "@/components/shared/Loader"; 
 import React, { useState, useEffect } from "react";
 
 type PostStatsProps = {
@@ -10,7 +10,9 @@ type PostStatsProps = {
 };
 
 const PostStats = ({ post, userId }: PostStatsProps ) => {
-    const likesList = post?.likes.map((user: Models.Document) => user.$id)
+    // SAFETY FIX 1: Add '?' before .map()
+    // This prevents crash if 'likes' array is null/undefined
+    const likesList = post?.likes?.map((user: Models.Document) => user.$id) || [];
 
     const [ likes, setLikes ] = useState(likesList);
     const [ isSaved, setIsSaved ] = useState(false);
@@ -21,18 +23,22 @@ const PostStats = ({ post, userId }: PostStatsProps ) => {
 
     const { data: currentUser } = useGetCurrentUser();
 
-    const savedPostRecord = currentUser?.save.find((record: Models.Document) => record.post.$id === post?.$id);
+    // SAFETY FIX 2: Check 'record' exists before checking 'record.post'
+    // Appwrite sometimes leaves null holes in arrays if items were deleted
+    const savedPostRecord = currentUser?.save?.find(
+        (record: Models.Document) => record && record.post && record.post.$id === post?.$id
+    );
 
     useEffect(() => {
+        // SAFETY FIX 3: Force boolean conversion
         setIsSaved(!!savedPostRecord)
-    }, [currentUser])
+    }, [currentUser, savedPostRecord])
 
 
     const handleLikePost = (e: React.MouseEvent) => {
         e.stopPropagation();
 
         let newLikes = [...likes];
-
         const hasLiked = newLikes.includes(userId);
 
         if(hasLiked) {
@@ -81,7 +87,7 @@ const PostStats = ({ post, userId }: PostStatsProps ) => {
                             : "/assets/icons/save.svg"
                         }
 
-                        alt="like"
+                        alt="save"
                         width={20}
                         height={20}
                         onClick={handleSavePost}

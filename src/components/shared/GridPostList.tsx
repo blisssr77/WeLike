@@ -23,26 +23,30 @@ const GridPostList = ({
         <li key={post.$id} className="relative min-w-80 h-80">
           <Link to={`/posts/${post.$id}`} className="grid-post_link">
             <img
-              src={post.imageUrl}
+              // FIX 1: Ensure Main Post Image uses /view
+              src={post.imageUrl?.replace("/preview", "/view")}
               alt="post"
               className="h-full w-full object-cover"
             />
           </Link>
 
           <div className="grid-post_user">
-            {showUser && (
+            {/* SAFEGUARD: Only show user info if creator exists */}
+            {showUser && post.creator && (
               <div className="flex items-center justify-start gap-2 flex-1">
                 <img
+                  // FIX 2: Ensure Creator Avatar ALSO uses /view (This was likely breaking)
                   src={
-                    post.creator.imageUrl ||
+                    post.creator?.imageUrl?.replace("/preview", "/view") ||
                     "/assets/icons/profile-placeholder.svg"
                   }
                   alt="creator"
                   className="w-8 h-8 rounded-full"
                 />
-                <p className="line-clamp-1">{post.creator.name}</p>
+                <p className="line-clamp-1">{post.creator?.name}</p>
               </div>
             )}
+            
             {showStats && <PostStats post={post} userId={user.id} />}
           </div>
         </li>

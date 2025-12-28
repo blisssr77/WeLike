@@ -1,87 +1,54 @@
-# WeLike
+# 📸 Vibe
 
-WeLike is a dynamic social media platform allowing users to create and explore posts, ensuring a smooth and engaging user experience with a modern and responsive design.
+![Vibe Banner](/public/assets/icons/logonew3.png)
 
-## Table of Contents
+**Vibe** is a modern social media application built for high-performance visual storytelling. It features infinite scrolling, real-time interactions, and a robust authentication system. Built with **React**, **TypeScript**, and **Appwrite**, it focuses on a seamless mobile-first experience and efficient data caching.
 
-- [Introduction](#introduction)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started-vercel)
-- [Features](#features)
-- [Setup and Installation](#setup-and-installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
+[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://we-like-app-v1.vercel.app/)
+[![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-## Introduction
+---
 
-Explore social media with this user-friendly platform that has a nice look and lots of features. Easily create and explore posts, and enjoy a strong authentication system and quick data fetching using React Query for a smooth user experience.
+## 🚀 Key Features
 
-If you need assistance or face any bugs, join our active Discord community with over 27k+ members. It's a place where people help each other out.
+* **Authentication & Security**: Robust email/password login and Google OAuth integration using Appwrite Auth. Includes a secure "Guest Mode" for frictionless browsing.
+* **Infinite Scroll Feed**: Optimized performance using `react-intersection-observer` to lazy-load posts as users scroll.
+* **Image Optimization**: Automatic image resizing and caching for faster load times on mobile networks.
+* **React Query Caching**: Implemented stale-while-revalidate strategies to minimize API calls and ensure the UI feels instant.
+* **File Management**: Drag-and-drop image uploads with client-side preview and cropping validation.
+* **Search & Discovery**: Real-time search functionality to find users and posts with debounce for API efficiency.
 
-## Tech Stack
+---
 
-- **Frontend**: React.js, TypeScript, Tailwind CSS
-- **Backend**: Appwrite
-- **State Management**: React Query
-- **UI Components**: Shadcn
-- **Authentication**: Appwrite
+## 🛠️ Tech Stack
 
-## Getting Started (Vercel)
+| Category | Technologies |
+| :--- | :--- |
+| **Frontend** | React.js, TypeScript, Vite |
+| **Styling** | Tailwind CSS, Shadcn UI |
+| **Backend (BaaS)** | Appwrite (Database, Auth, Storage) |
+| **State Management** | TanStack Query (React Query) |
+| **Form Handling** | React Hook Form, Zod (Validation) |
+| **Routing** | React Router DOM v6 |
 
-[WeLike app - single click to start the app](https://we-like-app-v1.vercel.app/sign-in)
+---
 
-- **Sign up / Sign in**
-- **Browse Contents**
-- **Like / Save the Contents**
-- **Create / Edit / Delete the Contents**
-- **Sign out**
+## 💡 Lessons Learned & Challenges
 
-## Features
+* **Optimizing Data Fetching:** I initially faced issues with prop-drilling user state. I solved this by implementing `TanStack Query` to handle server state and created a custom `AuthContext` to manage the user session globally.
+* **Handling Auth Redirects:** Managing the difference between "Guest Users" vs "Authenticated Users" was tricky. I built protected routes that intelligently redirect users based on their session status without flashing the login screen.
+* **Infinite Scroll:** Implementing pagination for the feed required careful state management to merge new posts with existing ones without causing layout shifts.
 
-- **Authentication System**: Secure and user-friendly login/signup
-- **Explore Page**: Discover and explore posts
-- **Post Interaction**: Like, save, and manage posts
-- **Detailed Post Page**: View detailed content and related posts
-- **Profile Page**: User profiles showcasing liked and saved posts
-- **User Browsing**: Explore other users' profiles and posts
-- **Create/Edit Post**: User-friendly post creation and editing
-- **Responsive UI**: Seamless experience across devices
-- **Efficient Data Fetching**: Using React Query for optimal performance
+---
 
+## ⚡ Getting Started
 
+To run this project locally, follow these steps:
 
-## Setup and Installation
+### 1. Clone the repository
 
-1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/yourusername/welike.git
-    cd welike
-    ```
-
-2. **Install dependencies**:
-    ```bash
-    npm install
-    ```
-
-3. **Configure environment variables**:
-    Create a `.env` file in the root directory and add your Appwrite project details:
-    ```
-    REACT_APP_APPWRITE_PROJECT_ID=your_project_id
-    REACT_APP_APPWRITE_ENDPOINT=your_appwrite_endpoint
-    ```
-
-4. **Start the development server**:
-    ```bash
-    npm start
-    ```
-
-## Usage
-
-- **Explore Page**: Navigate to `/explore` to see the latest posts.
-- **Profile Page**: Go to `/profile` to view and edit your profile.
-- **Create Post**: Use `/create-post` to add new posts.
-- **Detailed Post Page**: Click on any post to view its details.
-
-## Contributing
-
-We welcome contributions from the community. If you'd like to contribute, please fork the repository and create a pull request with your changes.
+```bash
+git clone [https://github.com/blisssr77/WeLike](https://github.com/blisssr77/WeLike)
+cd vite-project1-welike

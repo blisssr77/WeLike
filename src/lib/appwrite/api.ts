@@ -1,4 +1,5 @@
 import { ID, Query } from "appwrite";
+import { OAuthProvider } from "appwrite";
 
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
@@ -6,6 +7,32 @@ import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
 // ============================================================
 // AUTH
 // ============================================================
+
+// 1. Google Login (Redirects user to Google)
+export async function signInWithGoogle() {
+  try {
+    // FIX: Use 'window.location.origin' so it works on Localhost AND Vercel/Netlify
+    const redirectUrl = window.location.origin;
+    
+    return account.createOAuth2Session(
+      OAuthProvider.Google,
+      `${redirectUrl}/`,        // Success
+      `${redirectUrl}/sign-in`  // Failure
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// 2. Guest Login (Anonymous Session)
+export async function signInAsGuest() {
+  try {
+    const session = await account.createAnonymousSession();
+    return session;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // ============================== SIGN UP
 export async function createUserAccount(user: INewUser) {
@@ -81,23 +108,66 @@ export async function getAccount() {
 }
 
 // ============================== GET USER
-export async function getCurrentUser() {
+export const getCurrentUser = async () => {
   try {
-    const currentAccount = await getAccount();
+    // 1. Get the Auth Account (Google, Email, or Guest)
+    const currentAccount = await account.get();
 
-    if (!currentAccount) throw Error;
+    if (!currentAccount) return null;
 
+    // ============================================================
+    // NEW LOGIC: Check for Guest (Anonymous) User
+    // ============================================================
+    // Anonymous users have an empty email string.
+    if (currentAccount.email === "") {
+      // Return a temporary "Mock" user object so the app can function
+      // We do NOT save them to the database yet.
+      return {
+        $id: currentAccount.$id,
+        name: "Guest User",
+        username: "guest",
+        email: "",
+        imageUrl: "/assets/icons/profile-placeholder.svg",
+        bio: "",
+        save: [],
+      };
+    }
+
+    // ============================================================
+    // STANDARD LOGIC (For Google / Email Users)
+    // ============================================================
+    
+    // 2. Check if this user exists in our Database
     const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
       [Query.equal("accountId", currentAccount.$id)]
     );
 
-    if (!currentUser) throw Error;
+    // 3. IF USER EXISTS: Return their profile
+    if (currentUser.documents.length > 0) {
+      return currentUser.documents[0];
+    }
 
-    return currentUser.documents[0];
+    // 4. IF USER MISSING: Auto-Create Them
+    const username = currentAccount.name.replace(/\s+/g, '').toLowerCase() || currentAccount.email.split('@')[0];
+    const avatarUrl = avatars.getInitials(currentAccount.name);
+
+    const newUser = await saveUserToDB({
+      accountId: currentAccount.$id,
+      name: currentAccount.name,
+      email: currentAccount.email,
+      username: username,
+      imageUrl: avatarUrl,
+    });
+
+    return newUser;
+
   } catch (error) {
-    console.log(error);
+    // @ts-ignore
+    if (error.code !== 401) {
+      console.log(error);
+    }
     return null;
   }
 }
@@ -126,7 +196,7 @@ export async function createPost(post: INewPost) {
     if (!uploadedFile) throw Error;
 
     // Get file url
-    const fileUrl = getFilePreview(uploadedFile.$id);
+    const fileUrl = storage.getFileView(appwriteConfig.storageId, uploadedFile.$id);
     if (!fileUrl) {
       await deleteFile(uploadedFile.$id);
       throw Error;
@@ -179,11 +249,10 @@ export async function uploadFile(file: File) {
 // ============================== GET FILE URL
 export function getFilePreview(fileId: string) {
   try {
-    const fileUrl = storage.getFilePreview(
+    // FIX: Switch to getFileView to avoid the 403 error on Free Plan
+    const fileUrl = storage.getFileView(
       appwriteConfig.storageId,
-      fileId,
-      2000,
-      2000,
+      fileId
     );
 
     if (!fileUrl) throw Error;

@@ -8,6 +8,8 @@ import {
   
   import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
   import {
+    signInWithGoogle,
+    signInAsGuest,
     createUserAccount,
     signInAccount,
     getCurrentUser,
@@ -27,6 +29,21 @@ import {
     deleteSavedPost,
   } from "@/lib/appwrite/api";
   import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+
+  // ============================================================
+  // Google & Guest Sign-In MUTATIONS
+  // ============================================================
+  export const useSignInWithGoogle = () => {
+    return useMutation({
+      mutationFn: signInWithGoogle,
+    });
+  };
+
+  export const useSignInAsGuest = () => {
+    return useMutation({
+      mutationFn: signInAsGuest,
+    });
+  };
   
   // ============================================================
   // AUTH QUERIES
