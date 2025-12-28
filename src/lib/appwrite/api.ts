@@ -1,5 +1,5 @@
 import { ID, Query } from "appwrite";
-import { OAuthProvider, Account } from "appwrite";
+import { OAuthProvider } from "appwrite";
 
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
