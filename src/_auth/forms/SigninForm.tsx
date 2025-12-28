@@ -70,13 +70,21 @@ const SigninForm = () => {
   // Handle Google Login
   const handleGoogleLogin = async (e: React.MouseEvent) => {
     e.preventDefault();
-    // FIX 2 (Optional but good): Clear session for Google too
-    try { await signOutAccount(); } catch (e) {}
 
     try {
+      // 1. FORCE LOGOUT FIRST
+      // This clears any "stale" cookies from previous sessions
+      await signOutAccount(); 
+    } catch (error) {
+      // If there was no session, this fails silently, which is fine
+      console.log("No active session to clear");
+    }
+
+    try {
+      // 2. Now start the fresh Google Login flow
       await signInGoogle();
     } catch (error) {
-      toast({ title: "Google sign-in failed." });
+      toast({ title: "Google sign-in failed. Please try again." });
     }
   }
 

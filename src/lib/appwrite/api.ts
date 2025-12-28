@@ -1,5 +1,5 @@
 import { ID, Query } from "appwrite";
-import { OAuthProvider } from "appwrite";
+import { OAuthProvider, Account } from "appwrite";
 
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
@@ -11,18 +11,29 @@ import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
 // 1. Google Login (Redirects user to Google)
 export async function signInWithGoogle() {
   try {
-    // FIX: Use 'window.location.origin' so it works on Localhost AND Vercel/Netlify
-    const redirectUrl = window.location.origin;
-    
     return account.createOAuth2Session(
       OAuthProvider.Google,
-      `${redirectUrl}/`,        // Success
-      `${redirectUrl}/sign-in`  // Failure
+      window.location.origin,
+      window.location.origin
     );
   } catch (error) {
     console.log(error);
   }
 }
+// export async function signInWithGoogle() {
+//   try {
+//     // FIX: Use 'window.location.origin' so it works on Localhost AND Vercel/Netlify
+//     const redirectUrl = window.location.origin;
+    
+//     return account.createOAuth2Session(
+//       OAuthProvider.Google,
+//       `${redirectUrl}/`,        // Success
+//       `${redirectUrl}/sign-in`  // Failure
+//     );
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 // 2. Guest Login (Anonymous Session)
 export async function signInAsGuest() {
@@ -108,36 +119,14 @@ export async function getAccount() {
 }
 
 // ============================== GET USER
-export const getCurrentUser = async () => {
+export async function getCurrentUser() {
   try {
-    // 1. Get the Auth Account (Google, Email, or Guest)
+    // 1. Get the authenticated account (Auth Session)
     const currentAccount = await account.get();
 
-    if (!currentAccount) return null;
+    if (!currentAccount) throw Error;
 
-    // ============================================================
-    // NEW LOGIC: Check for Guest (Anonymous) User
-    // ============================================================
-    // Anonymous users have an empty email string.
-    if (currentAccount.email === "") {
-      // Return a temporary "Mock" user object so the app can function
-      // We do NOT save them to the database yet.
-      return {
-        $id: currentAccount.$id,
-        name: "Guest User",
-        username: "guest",
-        email: "",
-        imageUrl: "/assets/icons/profile-placeholder.svg",
-        bio: "",
-        save: [],
-      };
-    }
-
-    // ============================================================
-    // STANDARD LOGIC (For Google / Email Users)
-    // ============================================================
-    
-    // 2. Check if this user exists in our Database
+    // 2. Try to find the user in our Database
     const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
@@ -149,25 +138,33 @@ export const getCurrentUser = async () => {
       return currentUser.documents[0];
     }
 
-    // 4. IF USER MISSING: Auto-Create Them
-    const username = currentAccount.name.replace(/\s+/g, '').toLowerCase() || currentAccount.email.split('@')[0];
+    // 4. IF USER IS MISSING (First time Google Login):
+    //    We auto-create the profile right here!
+    
+    // Generate a username from their Google Name (e.g. "Robin Chae" -> "robinchae")
+    // We remove spaces and make it lowercase
+    const username = currentAccount.name.replace(/\s+/g, "").toLowerCase();
+    
+    // Get their initials as an avatar if Google didn't provide one
     const avatarUrl = avatars.getInitials(currentAccount.name);
 
-    const newUser = await saveUserToDB({
-      accountId: currentAccount.$id,
-      name: currentAccount.name,
-      email: currentAccount.email,
-      username: username,
-      imageUrl: avatarUrl,
-    });
+    const newUser = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      ID.unique(),
+      {
+        accountId: currentAccount.$id,
+        email: currentAccount.email,
+        name: currentAccount.name,
+        username: username,
+        imageUrl: avatarUrl,
+      }
+    );
 
     return newUser;
-
+    
   } catch (error) {
-    // @ts-ignore
-    if (error.code !== 401) {
-      console.log(error);
-    }
+    console.log(error);
     return null;
   }
 }
