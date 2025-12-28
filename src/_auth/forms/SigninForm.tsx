@@ -11,6 +11,7 @@ import Loader from "@/components/shared/Loader"
 // FIX 1: Import useSignOutAccount to clear old sessions
 import { useSignInAccount, useSignInWithGoogle, useSignInAsGuest, useSignOutAccount } from "@/lib/react-query/queriesAndMutations"
 import { useUserContext } from "@/context/AuthContext"
+import { useEffect } from "react"
 
 const SigninForm = () => {
   const { toast } = useToast();
@@ -21,7 +22,20 @@ const SigninForm = () => {
   const { mutateAsync: signInAccount } = useSignInAccount()
   const { mutateAsync: signInGoogle } = useSignInWithGoogle() 
   const { mutateAsync: signInGuest, isPending: isGuestLoading } = useSignInAsGuest()
-  const { mutateAsync: signOutAccount } = useSignOutAccount() // FIX 1
+  const { mutateAsync: signOutAccount } = useSignOutAccount()
+
+  // As soon as this page loads, kill any old sessions.
+  // This ensures the "Sign in with Google" button always starts fresh.
+  useEffect(() => {
+    const cleanSession = async () => {
+      try {
+        await signOutAccount();
+      } catch (error) {
+        // Silently fail if no session exists - that's good!
+      }
+    };
+    cleanSession();
+  }, []);
 
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
