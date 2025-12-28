@@ -121,31 +121,41 @@ export async function getAccount() {
 // ============================== GET USER
 export async function getCurrentUser() {
   try {
-    // 1. Get the authenticated account (Auth Session)
+    // 1. Get the authenticated session (works for Google OR Guest)
     const currentAccount = await account.get();
 
     if (!currentAccount) throw Error;
 
-    // 2. Try to find the user in our Database
+    // 2. CHECK: Is this a Guest? (Guests have no email)
+    if (!currentAccount.email) {
+      // ⚡ BYPASS DATABASE CREATION
+      // Return a "Virtual User" object so the UI doesn't crash.
+      // We map the Appwrite session ID to the user ID.
+      return {
+        $id: currentAccount.$id,
+        name: "Guest User",
+        username: "guest",
+        email: "guest@example.com",
+        imageUrl: "/assets/icons/profile-placeholder.svg",
+        bio: "Just browsing...",
+        save: [] // Empty list of saved posts
+      };
+    }
+
+    // 3. NORMAL FLOW (For Google/Email Users)
+    // Check if they exist in DB, if not, create them...
     const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
       [Query.equal("accountId", currentAccount.$id)]
     );
 
-    // 3. IF USER EXISTS: Return their profile
     if (currentUser.documents.length > 0) {
       return currentUser.documents[0];
     }
 
-    // 4. IF USER IS MISSING (First time Google Login):
-    //    We auto-create the profile right here!
-    
-    // Generate a username from their Google Name (e.g. "Robin Chae" -> "robinchae")
-    // We remove spaces and make it lowercase
+    // If Google user is missing in DB, create them (Previous Logic)
     const username = currentAccount.name.replace(/\s+/g, "").toLowerCase();
-    
-    // Get their initials as an avatar if Google didn't provide one
     const avatarUrl = avatars.getInitials(currentAccount.name);
 
     const newUser = await databases.createDocument(
